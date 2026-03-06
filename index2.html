@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaFlow — AI Productivity Platform</title>
+    <style>
+      :root {
+        --bg: #f4f7ff;
+        --surface: #ffffff;
+        --surface-soft: #f8faff;
+        --text: #0f172a;
+        --muted: #52607a;
+        --primary: #4f46e5;
+        --primary-strong: #4338ca;
+        --accent: #06b6d4;
+        --border: #dbe4ff;
+        --shadow: 0 20px 55px rgba(15, 23, 42, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+        background:
+          radial-gradient(circle at 10% 10%, rgba(79, 70, 229, 0.12), transparent 50%),
+          radial-gradient(circle at 90% 0%, rgba(6, 182, 212, 0.12), transparent 42%),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      .container {
+        width: min(1120px, 92%);
+        margin: 0 auto;
+      }
+
+      .section {
+        padding: 5.5rem 0;
+      }
+
+      .hero {
+        padding-top: 4.5rem;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--primary);
+        background: rgba(79, 70, 229, 0.08);
+        border: 1px solid rgba(79, 70, 229, 0.2);
+        border-radius: 999px;
+        padding: 0.38rem 0.85rem;
+        margin-bottom: 1.2rem;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 4.6vw, 3.7rem);
+        line-height: 1.1;
+        margin: 0 0 1rem;
+        letter-spacing: -0.03em;
+      }
+
+      .hero p {
+        margin: 0;
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .hero-actions {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.35rem;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease, color 0.22s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: #fff;
+        box-shadow: 0 12px 28px rgba(79, 70, 229, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 30px rgba(79, 70, 229, 0.36);
+      }
+
+      .btn-secondary {
+        border-color: var(--border);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        border-color: #c6d5ff;
+        background: #fff;
+        box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+      }
+
+      .demo-card {
+        background: linear-gradient(180deg, #fff, #f8faff);
+        border: 1px solid #e4ebff;
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        padding: 1.25rem;
+      }
+
+      .panel-head,
+      .analytics,
+      .task,
+      .interface-line {
+        background: #fff;
+        border: 1px solid #e9efff;
+        border-radius: 14px;
+      }
+
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.7rem 0.85rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .badge {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #0e7490;
+        background: rgba(34, 197, 94, 0.12);
+        border: 1px solid rgba(34, 197, 94, 0.25);
+        border-radius: 999px;
+        padding: 0.22rem 0.62rem;
+      }
+
+      .analytics {
+        padding: 0.8rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .analytics strong {
+        display: block;
+        font-size: 1.35rem;
+        margin-top: 0.15rem;
+      }
+
+      .tasks {
+        display: grid;
+        gap: 0.65rem;
+      }
+
+      .task {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.62rem 0.7rem;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 0.55rem;
+        flex: none;
+      }
+
+      .task-title {
+        display: flex;
+        align-items: center;
+        font-size: 0.92rem;
+      }
+
+      .chip {
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0.16rem 0.55rem;
+        border-radius: 999px;
+        background: #eef3ff;
+        color: #475569;
+      }
+
+      .interface-lines {
+        margin-top: 0.9rem;
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .interface-line {
+        height: 11px;
+      }
+
+      .interface-line:nth-child(2) {
+        width: 84%;
+      }
+
+      .interface-line:nth-child(3) {
+        width: 68%;
+      }
+
+      h2 {
+        font-size: clamp(1.45rem, 2.6vw, 2.1rem);
+        margin: 0 0 0.9rem;
+        letter-spacing: -0.02em;
+      }
+
+      .section-intro {
+        color: var(--muted);
+        margin: 0 0 2rem;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid #e6edff;
+        border-radius: 18px;
+        padding: 1.25rem;
+        box-shadow: 0 14px 26px rgba(15, 23, 42, 0.06);
+      }
+
+      .card h3 {
+        margin: 0 0 0.55rem;
+        font-size: 1.1rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .steps .card {
+        position: relative;
+        padding-top: 3rem;
+      }
+
+      .step-number {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        border-radius: 8px;
+        background: #e9edff;
+        color: var(--primary-strong);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+
+      .testimonial {
+        background: linear-gradient(145deg, #0f172a, #1e293b);
+        color: #e2e8f0;
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.32);
+      }
+
+      .quote {
+        margin: 0 0 1.2rem;
+        font-size: 1.05rem;
+      }
+
+      .person {
+        color: #cbd5e1;
+      }
+
+      .person strong {
+        color: #fff;
+      }
+
+      .cta {
+        text-align: center;
+        background: linear-gradient(130deg, #eef2ff, #e6f9ff);
+        border: 1px solid #dce7ff;
+        border-radius: 26px;
+        padding: 3rem 1.2rem;
+      }
+
+      .cta h2 {
+        margin-bottom: 1.1rem;
+      }
+
+      footer {
+        padding: 2rem 0 3rem;
+        text-align: center;
+        color: #7b88a1;
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 980px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .grid-3 {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .section {
+          padding: 4rem 0;
+        }
+
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-actions {
+          width: 100%;
+        }
+
+        .btn {
+          flex: 1;
+          min-width: 160px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="container hero section">
+        <div>
+          <span class="eyebrow">AI productivity platform</span>
+          <h1>Work faster with NovaFlow</h1>
+          <p>
+            Organize tasks, generate content, and automate routine work in one elegant
+            workspace.
+          </p>
+          <div class="hero-actions">
+            <a href="#" class="btn btn-primary">Start free</a>
+            <a href="#" class="btn btn-secondary">Watch demo</a>
+          </div>
+        </div>
+
+        <aside class="demo-card" aria-label="NovaFlow app preview">
+          <div class="panel-head">
+            <strong>NovaFlow Workspace</strong>
+            <span class="badge">● Active</span>
+          </div>
+          <div class="analytics">
+            <small>Weekly analytics</small>
+            <strong>+38% productivity</strong>
+          </div>
+          <div class="tasks">
+            <div class="task">
+              <span class="task-title"><span class="dot" style="background:#4f46e5"></span>Draft campaign brief</span>
+              <span class="chip">In progress</span>
+            </div>
+            <div class="task">
+              <span class="task-title"><span class="dot" style="background:#06b6d4"></span>Summarize team notes</span>
+              <span class="chip">Automated</span>
+            </div>
+            <div class="task">
+              <span class="task-title"><span class="dot" style="background:#22c55e"></span>Plan weekly roadmap</span>
+              <span class="chip">Done</span>
+            </div>
+          </div>
+          <div class="interface-lines" aria-hidden="true">
+            <div class="interface-line"></div>
+            <div class="interface-line"></div>
+            <div class="interface-line"></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="container section" aria-labelledby="benefits-title">
+        <h2 id="benefits-title">Why teams choose NovaFlow</h2>
+        <p class="section-intro">Powerful features designed for fast-moving teams and ambitious creators.</p>
+        <div class="grid-3">
+          <article class="card">
+            <h3>Smart automation</h3>
+            <p>Use AI to draft repetitive content, prioritize tasks, and trigger workflows without manual effort.</p>
+          </article>
+          <article class="card">
+            <h3>Team collaboration</h3>
+            <p>Share projects, comments, and updates in one streamlined workspace where everyone stays aligned.</p>
+          </article>
+          <article class="card">
+            <h3>Insightful analytics</h3>
+            <p>Track focus time, completion speed, and project health with clear visual performance snapshots.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="container section steps" aria-labelledby="steps-title">
+        <h2 id="steps-title">How it works</h2>
+        <div class="grid-3">
+          <article class="card">
+            <span class="step-number">1</span>
+            <h3>Connect your workflow</h3>
+            <p>Bring your tasks, notes, and calendars together in a single AI-enhanced productivity hub.</p>
+          </article>
+          <article class="card">
+            <span class="step-number">2</span>
+            <h3>Let AI handle routine tasks</h3>
+            <p>Automate repetitive planning, drafting, and status updates so your team can focus on impact.</p>
+          </article>
+          <article class="card">
+            <span class="step-number">3</span>
+            <h3>Track results in real time</h3>
+            <p>Monitor output and team momentum with live analytics that surface wins and bottlenecks quickly.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="container section" aria-labelledby="testimonial-title">
+        <h2 id="testimonial-title">Loved by product teams</h2>
+        <article class="testimonial">
+          <p class="quote">
+            “NovaFlow helped us cut busywork dramatically. We now launch projects faster, keep everyone aligned,
+            and spend more time building what users truly need.”
+          </p>
+          <p class="person"><strong>Sophie Martin</strong> — Product Manager</p>
+        </article>
+      </section>
+
+      <section class="container section">
+        <div class="cta">
+          <h2>Ready to simplify your work?</h2>
+          <a href="#" class="btn btn-primary">Get started today</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container">© 2026 NovaFlow. Built for modern teams.</footer>
+  </body>
+</html>
