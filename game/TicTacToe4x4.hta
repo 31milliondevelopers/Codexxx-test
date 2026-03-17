@@ -1,0 +1,220 @@
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>Крестики-нолики 4x4</title>
+    <HTA:APPLICATION
+        APPLICATIONNAME="TicTacToe4x4"
+        BORDER="thin"
+        CAPTION="yes"
+        SHOWINTASKBAR="yes"
+        SINGLEINSTANCE="yes"
+        SYSMENU="yes"
+        SCROLL="no"
+        WINDOWSTATE="normal"
+    />
+    <style>
+        body {
+            font-family: Segoe UI, Tahoma, Arial;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 16px;
+        }
+
+        .container {
+            width: 340px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #cccccc;
+            padding: 14px;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 20px;
+        }
+
+        #status {
+            margin: 8px 0 12px 0;
+            font-size: 16px;
+            min-height: 22px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+
+        td {
+            border: 1px solid #999999;
+            padding: 0;
+        }
+
+        .cell {
+            width: 70px;
+            height: 70px;
+            font-size: 34px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #ffffff;
+            border: none;
+        }
+
+        .cell:disabled {
+            color: #222222;
+            background: #f0f0f0;
+            cursor: default;
+        }
+
+        #restartBtn {
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+
+    <script language="VBScript">
+        Dim currentPlayer
+        Dim gameOver
+        Dim board(15)
+
+        Sub Window_OnLoad
+            call RestartGame
+        End Sub
+
+        Sub RestartGame
+            Dim i
+            currentPlayer = "X"
+            gameOver = False
+
+            For i = 0 To 15
+                board(i) = ""
+                document.getElementById("cell" & CStr(i)).innerText = ""
+                document.getElementById("cell" & CStr(i)).disabled = False
+            Next
+
+            UpdateStatus "Ход игрока: " & currentPlayer
+        End Sub
+
+        Sub UpdateStatus(text)
+            document.getElementById("status").innerText = text
+        End Sub
+
+        Sub DisableBoard
+            Dim i
+            For i = 0 To 15
+                document.getElementById("cell" & CStr(i)).disabled = True
+            Next
+        End Sub
+
+        Sub CellClick(index)
+            If gameOver Then Exit Sub
+
+            If board(index) <> "" Then
+                UpdateStatus "Клетка занята. Ход игрока: " & currentPlayer
+                Exit Sub
+            End If
+
+            board(index) = currentPlayer
+            document.getElementById("cell" & CStr(index)).innerText = currentPlayer
+
+            If CheckWinner(currentPlayer) Then
+                gameOver = True
+                DisableBoard
+                UpdateStatus "Победил игрок " & currentPlayer & "!"
+                MsgBox "Победил игрок " & currentPlayer & "!", vbInformation, "Игра завершена"
+                Exit Sub
+            End If
+
+            If IsDraw() Then
+                gameOver = True
+                DisableBoard
+                UpdateStatus "Ничья!"
+                MsgBox "Ничья!", vbInformation, "Игра завершена"
+                Exit Sub
+            End If
+
+            If currentPlayer = "X" Then
+                currentPlayer = "O"
+            Else
+                currentPlayer = "X"
+            End If
+
+            UpdateStatus "Ход игрока: " & currentPlayer
+        End Sub
+
+        Function IsDraw
+            Dim i
+            For i = 0 To 15
+                If board(i) = "" Then
+                    IsDraw = False
+                    Exit Function
+                End If
+            Next
+            IsDraw = True
+        End Function
+
+        Function CheckLine(a, b, c, d, player)
+            If board(a) = player And board(b) = player And board(c) = player And board(d) = player Then
+                CheckLine = True
+            Else
+                CheckLine = False
+            End If
+        End Function
+
+        Function CheckWinner(player)
+            ' Горизонтали
+            If CheckLine(0,1,2,3,player) Then CheckWinner = True: Exit Function
+            If CheckLine(4,5,6,7,player) Then CheckWinner = True: Exit Function
+            If CheckLine(8,9,10,11,player) Then CheckWinner = True: Exit Function
+            If CheckLine(12,13,14,15,player) Then CheckWinner = True: Exit Function
+
+            ' Вертикали
+            If CheckLine(0,4,8,12,player) Then CheckWinner = True: Exit Function
+            If CheckLine(1,5,9,13,player) Then CheckWinner = True: Exit Function
+            If CheckLine(2,6,10,14,player) Then CheckWinner = True: Exit Function
+            If CheckLine(3,7,11,15,player) Then CheckWinner = True: Exit Function
+
+            ' Диагонали
+            If CheckLine(0,5,10,15,player) Then CheckWinner = True: Exit Function
+            If CheckLine(3,6,9,12,player) Then CheckWinner = True: Exit Function
+
+            CheckWinner = False
+        End Function
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Крестики-нолики 4x4</h1>
+        <div id="status"></div>
+
+        <table>
+            <tr>
+                <td><button class="cell" id="cell0" onclick="CellClick 0"></button></td>
+                <td><button class="cell" id="cell1" onclick="CellClick 1"></button></td>
+                <td><button class="cell" id="cell2" onclick="CellClick 2"></button></td>
+                <td><button class="cell" id="cell3" onclick="CellClick 3"></button></td>
+            </tr>
+            <tr>
+                <td><button class="cell" id="cell4" onclick="CellClick 4"></button></td>
+                <td><button class="cell" id="cell5" onclick="CellClick 5"></button></td>
+                <td><button class="cell" id="cell6" onclick="CellClick 6"></button></td>
+                <td><button class="cell" id="cell7" onclick="CellClick 7"></button></td>
+            </tr>
+            <tr>
+                <td><button class="cell" id="cell8" onclick="CellClick 8"></button></td>
+                <td><button class="cell" id="cell9" onclick="CellClick 9"></button></td>
+                <td><button class="cell" id="cell10" onclick="CellClick 10"></button></td>
+                <td><button class="cell" id="cell11" onclick="CellClick 11"></button></td>
+            </tr>
+            <tr>
+                <td><button class="cell" id="cell12" onclick="CellClick 12"></button></td>
+                <td><button class="cell" id="cell13" onclick="CellClick 13"></button></td>
+                <td><button class="cell" id="cell14" onclick="CellClick 14"></button></td>
+                <td><button class="cell" id="cell15" onclick="CellClick 15"></button></td>
+            </tr>
+        </table>
+
+        <button id="restartBtn" onclick="RestartGame">Начать заново</button>
+    </div>
+</body>
+</html>
