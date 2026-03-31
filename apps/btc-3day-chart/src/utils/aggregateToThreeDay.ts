@@ -1,10 +1,15 @@
 import type { DailyCandle } from '../types';
 
-export const aggregateToThreeDayCandles = (dailyCandles: DailyCandle[]): DailyCandle[] => {
+export const aggregateToThreeDayCandles = (
+  dailyCandles: DailyCandle[],
+  startDateIso: string,
+): DailyCandle[] => {
+  const startTimestamp = Math.floor(new Date(startDateIso).getTime() / 1000);
+  const alignedCandles = dailyCandles.filter((candle) => candle.time >= startTimestamp);
   const result: DailyCandle[] = [];
 
-  for (let i = 0; i + 2 < dailyCandles.length; i += 3) {
-    const group = dailyCandles.slice(i, i + 3);
+  for (let i = 0; i + 2 < alignedCandles.length; i += 3) {
+    const group = alignedCandles.slice(i, i + 3);
 
     const aggregated: DailyCandle = {
       time: group[0].time,
