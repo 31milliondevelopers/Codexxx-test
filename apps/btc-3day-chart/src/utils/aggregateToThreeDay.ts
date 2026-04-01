@@ -8,15 +8,22 @@ export const aggregateToThreeDayCandles = (
   const alignedCandles = dailyCandles.filter((candle) => candle.time >= startTimestamp);
   const result: DailyCandle[] = [];
 
-  for (let i = 0; i + 2 < alignedCandles.length; i += 3) {
+  for (let i = 0; i < alignedCandles.length; i += 3) {
     const group = alignedCandles.slice(i, i + 3);
+    if (group.length === 0) {
+      continue;
+    }
+
+    const highs = group.map((candle) => candle.high);
+    const lows = group.map((candle) => candle.low);
+    const lastDay = group[group.length - 1];
 
     const aggregated: DailyCandle = {
       time: group[0].time,
       open: group[0].open,
-      high: Math.max(group[0].high, group[1].high, group[2].high),
-      low: Math.min(group[0].low, group[1].low, group[2].low),
-      close: group[2].close,
+      high: Math.max(...highs),
+      low: Math.min(...lows),
+      close: lastDay.close,
     };
 
     result.push(aggregated);
