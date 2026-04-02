@@ -45,6 +45,8 @@ const CandlesChart = ({ data }: Props) => {
       borderVisible: false,
       wickUpColor: '#22c55e',
       wickDownColor: '#ef4444',
+      priceLineVisible: false,
+      lastValueVisible: true,
     });
 
     series.setData(data as CandlestickData<UTCTimestamp>[]);
